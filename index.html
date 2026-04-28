@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta http-equiv='refresh' content='30'>
+<title>TEXA EA Dashboard - EURUSD</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;margin:0;padding:20px;}
+.container{max-width:900px;margin:0 auto;}
+h1{text-align:center;color:#38bdf8;margin-bottom:5px;}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:25px;font-size:14px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+@media(max-width:700px){.grid{grid-template-columns:1fr;}}
+.panel{background:#1e293b;border-radius:12px;padding:18px;border:1px solid #334155;box-shadow:0 4px 6px rgba(0,0,0,0.3);}
+.panel h2{margin:0 0 12px 0;font-size:16px;color:#fbbf24;border-bottom:1px solid #334155;padding-bottom:8px;}
+.row{display:flex;justify-content:space-between;margin:7px 0;font-size:13px;}
+.label{color:#94a3b8;}
+.value{font-weight:600;}
+.up{color:#4ade80;}
+.down{color:#f87171;}
+.neutral{color:#fbbf24;}
+.status-active{color:#4ade80;}
+.status-stop{color:#f87171;}
+.status-warn{color:#fb923c;}
+.progress-bg{background:#334155;height:10px;border-radius:5px;margin-top:10px;overflow:hidden;}
+.progress-bar{height:100%;background:linear-gradient(90deg,#38bdf8,#818cf8);border-radius:5px;transition:width 0.5s;}
+.stop-btn{display:block;width:100%;max-width:320px;margin:25px auto;padding:16px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;text-align:center;border-radius:10px;text-decoration:none;font-weight:bold;font-size:18px;box-shadow:0 6px 12px rgba(0,0,0,0.4);cursor:pointer;border:none;}
+.stop-btn:hover{background:linear-gradient(90deg,#dc2626,#b91c1c);}
+.info-box{background:#334155;padding:12px;border-radius:8px;margin-top:15px;font-size:12px;color:#cbd5e1;text-align:center;}
+.footer{text-align:center;margin-top:25px;color:#64748b;font-size:12px;}
+</style>
+</head>
+<body>
+<div class='container'>
+<h1>?? TEXA EA Dashboard</h1>
+<div class='subtitle'>EURUSD | Magic: 1 | Dernière mise à jour: 2026.04.28 15:12</div>
+<script>
+async function stopBot(){
+if(!confirm('?? Arrêter définitivement TEXA EA ?\n\nToutes les positions ouvertes seront fermées.'))return;
+const btn=document.getElementById('stopBtn');btn.disabled=true;btn.innerText='? Envoi...';
+try{const r=await fetch('https://ntfy.sh/texa12-1/stop',{method:'POST',body:'STOP',headers:{'Title':'TEXA STOP','Priority':'urgent'}});
+if(r.ok){btn.innerText='? STOP ENVOYÉ';btn.style.background='#16a34a';alert('Commande STOP envoyée au bot ! Le VPS va arrêter le bot dans les prochaines secondes.');}
+else{btn.disabled=false;btn.innerText='?? ARRÊTER LE BOT';alert('Erreur lors de l\'envoi.');}
+}catch(e){btn.disabled=false;btn.innerText='?? ARRÊTER LE BOT';alert('Erreur réseau. Vérifiez votre connexion.');}
+}
+</script>
+<button id='stopBtn' class='stop-btn' onclick='stopBot()'  style='background:linear-gradient(90deg,#ef4444,#dc2626)'>?? ARRÊTER LE BOT</button>
+<div class='grid'>
+<div class='panel'>
+<h2>?? Analyse Tendance</h2>
+<div class='row'><span class='label'>Méthode:</span><span class='value'>ADX MA</span></div>
+<div class='row'><span class='label'>Tendance:</span><span class='value neutral'>RANGE</span></div>
+<div class='row'><span class='label'>Action:</span><span class='value down'>VENTE</span></div>
+<div class='row'><span class='label'>Confirmation:</span><span class='value'>0/2</span></div>
+<div class='row'><span class='label'>ADX Global:</span><span class='value'>OFF</span></div>
+</div>
+<div class='panel'>
+<h2>? Martingale System</h2>
+<div class='row'><span class='label'>Niveau:</span><span class='value'>0/5</span></div>
+<div class='row'><span class='label'>Prochain Lot:</span><span class='value'>0.01</span></div>
+<div class='row'><span class='label'>Multiplicateurs:</span><span class='value'>1.5 / 2.0</span></div>
+<div class='row'><span class='label'>Cycles perdus:</span><span class='value'>0/1</span></div>
+<div class='row'><span class='label'>Status:</span><span class='value status-active'>? Inactif</span></div>
+</div>
+<div class='panel'>
+<h2>?? Timing & Sécurité</h2>
+<div class='row'><span class='label'>Session:</span><span class='value'>07:00 - 22:00</span></div>
+<div class='row'><span class='label'>Positions actives:</span><span class='value'>0</span></div>
+<div class='row'><span class='label'>Equity:</span><span class='value'>1556.40</span></div>
+<div class='row'><span class='label'>Profit flottant:</span><span class='value up'>0.00</span></div>
+<div class='row'><span class='label'>Status global:</span><span class='value status-active'>ACTIF</span></div>
+</div>
+<div class='panel'>
+<h2>?? Cible de Profit</h2>
+<div class='row'><span class='label'>Mode:</span><span class='value'>Désactivé</span></div>
+</div>
+</div>
+<div class='info-box'>
+?? <strong>Commande à distance active</strong><br>
+Ce bouton STOP fonctionne depuis n'importe où (téléphone, PC, tablette).<br>
+La commande est transmise via ntfy.sh au VPS MetaTrader 5.<br>
+Mise à jour toutes les 3 secondes.
+</div>
+<div class='footer'>TEXA EA v3.0 | Généré automatiquement par MetaTrader 5</div>
+</div>
+</body>
+</html>
